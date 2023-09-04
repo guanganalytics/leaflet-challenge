@@ -3,8 +3,8 @@
 const QUERY_URL = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson";
 const RADIUS_SCALE = 10;
 const RADIUS_MIN = 4;
-let color_color=[0,30,50,70,90]
-let color_hex=["89FF33","EBFF33","FFBB33","FF7F33","BC2910","#ff0000"]
+let color_color=[10,30,50,70,90]
+let color_hex=["#73d016","#faff68","#fbcb03","#e13535","#ec1010","#a40a0a"]
 
 // Perform a GET request to the query URL/
 // Once we get a response, send the data.features object to the createFeatures function.
@@ -49,13 +49,24 @@ function getRadius(feature){
 // Define a function that we want to run once for each feature in the features array.
 function getGeoStyle(feature){
     let style = {
-        color: getColor(feature),
+        color: "black",
         fillColor: getColor(feature),
-        fillOpacity: 0.5,
+        fillOpacity: 0.6,
         radius: getRadius(feature),
     };
     return style;
 }
+
+// Set up the legend.
+function legend(){
+   let legend = L.control({
+    position: "bottomright",
+    colors:color_hex,
+    labels: ("-10-10", "10-30", "30-50", "50-70", "70-90","90+"),
+    title: "Marker color based of Magnitude of the Earthquake",
+    opacity: 1});
+}legend.addTo(myMap);
+
 
 // Create a GeoJSON layer that contains the features array on the earthquakeData object.
 // Run the onEachFeature function once for each piece of data in the array.
@@ -63,7 +74,7 @@ function createFeatures(earthquakeData) {
   let geoJSONOptions = {
     onEachFeature: onEachFeature,
     pointToLayer: pointToLayer,
-    style: getGeoStyle
+    style: getGeoStyle,
   };
   let earthquakes = L.geoJSON(earthquakeData, geoJSONOptions);
     createMap(earthquakes);
@@ -84,66 +95,5 @@ function createMap(earthquakes) {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// // Looping through the cities array, create one marker for each city, bind a popup , and add it to the map.
-//     let location_list=[]
-//     let earthquake_magnitude=features.
-//     for (let i = 0; i < features.length; i++) {
-//         geometry=features[i].geometry
-//         earthquake_lon=geometry.coordinates[0];
-//         earthquake_lat=geometry.coordinates[1];
-//         earthquake_location=[earthquake_lon,earthquake_lat];
-//         location_list.push(earthquake_location);
-
-//     console.log(earthquake_location)
-//         L.circle(earthquake_location,{fillOpacity: 0.75,
-//             radius: Math.sqrt(earthquake_magnitude) * 500})
-//         .bindPopup(`<h1>${earthquake_location}</h1> <hr> <h3>${features[i].properties.title}</h3>`)
-//         .addTo(myMap);
-//     };
-
-// });
-
-// // This function determines the color of the marker based on the magnitude of the earthquake.
-//     function determineColor(earthquake_depth) { 
-//         if (earthquake_depth < 10) { return 'green'; } 
-//         else if (earthquake_depth <30) { return 'yellow'; } 
-//         else if (earthquake_depth <50) { return 'darkeryellow'; } 
-//         else if (earthquake_depth <70) { return 'orange'; } 
-//         else if (earthquake_depth <90) { return 'darkerorange'; } 
-//         else { return 'red'; } } 
-//         var Marker = L.AwesomeMarkers.icon ({ markerColor: determineColor (earthquake_depth) });
-
-// // This function determines the radius of the earthquake marker based on its magnitude.
-
-//     function determineSize(earthquake_magnitude) { 
-//         let earthquake_magnitude=featu
-//         leaflet(df) %>% addTiles() %>%
-//         addCircleMarkersradius = ~ sqrt(earthquake_magnitude),stroke = FALSE, fillOpacity = 0.5
-// };
-
-// // This function create the legend at the bottom right to show the earthquake marker based on its magnitude.
-// map %>%
-//   addLegend("bottomright", 
-//             colors = c("#FFC125",  "#FFC125", "#8A4117", "#7D0552", "#571B7E"),
-//             labels = c("-10-10", "10-30", "30-50", "50-70", "70-90"."90+"),
-//             title = "Marker color based of Magnitude of the Earthquake",
-//             opacity = 1)
 
 
