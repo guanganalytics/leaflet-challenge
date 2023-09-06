@@ -57,15 +57,7 @@ function getGeoStyle(feature){
     return style;
 }
 
-// Set up the legend.
-function legend(){
-   let legend = L.control({
-    position: "bottomright",
-    colors:color_hex,
-    labels: ("-10-10", "10-30", "30-50", "50-70", "70-90","90+"),
-    title: "Marker color based of Magnitude of the Earthquake",
-    opacity: 1});
-}legend.addTo(myMap);
+
 
 
 // Create a GeoJSON layer that contains the features array on the earthquakeData object.
@@ -75,17 +67,18 @@ function createFeatures(earthquakeData) {
     onEachFeature: onEachFeature,
     pointToLayer: pointToLayer,
     style: getGeoStyle,
-  };
+  }; 
   let earthquakes = L.geoJSON(earthquakeData, geoJSONOptions);
     createMap(earthquakes);
 }
 
-// Send our earthquakes layer to the createMap function/
+
+// Send our earthquakes layer to the createMap function
 function createMap(earthquakes) {
   let street = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
   })
-  let baseMaps = {"Street Map": street,};
+
   let myMap = L.map("map", {
     center: [37.09, -95.71],
     zoom: 5,
@@ -93,7 +86,23 @@ function createMap(earthquakes) {
   });
 }
 
+// // Here we create a legend control object.
+// let legend = L.control({
+//     position: "bottomright"
+//   });
 
+//   legend.onAdd = function () {
+//     let div = L.DomUtil.create("div", "info legend");
+//     let grades = [-10, 10, 30, 50, 70, 90];
+//     let colors = color_hex;
 
-
-
+// // Loop through our intervals and generate a label with a colored square for each interval.
+//     for (let i = 0; i < grades.length; i++) {
+//       div.innerHTML += "<i style='background: "
+//         + colors[i]
+//         + "'></i> "
+//         + grades[i]
+//         + (grades[i + 1] ? "&ndash;" + grades[i + 1] + "<br>" : "+");
+//     }
+//     return div;
+//   };
