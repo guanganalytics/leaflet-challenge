@@ -79,30 +79,33 @@ function createMap(earthquakes) {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
   })
 
+  // Here we create a legend control object.
+let legend = L.control({
+    position: "bottomright"
+  });
+
+  legend.onAdd = function () {
+    let div = L.DomUtil.create("div", "info legend");
+    let grades = [-10, 10, 30, 50, 70, 90];
+    let colors = color_hex;
+
+// Loop through our intervals and generate a label with a colored square for each interval.
+    for (let i = 0; i < grades.length; i++) {
+      div.innerHTML += "<i style='background: "
+        + colors[i]
+        + "'></i> "
+        + grades[i]
+        + (grades[i + 1] ? "&ndash;" + grades[i + 1] + "<br>" : "+");
+    }
+    return div;
+  };
+
   let myMap = L.map("map", {
     center: [37.09, -95.71],
     zoom: 5,
-    layers: [street, earthquakes]
   });
+  street.addTo(myMap)
+  earthquakes.addTo(myMap)
+  legend.addTo(myMap)
 }
 
-// // Here we create a legend control object.
-// let legend = L.control({
-//     position: "bottomright"
-//   });
-
-//   legend.onAdd = function () {
-//     let div = L.DomUtil.create("div", "info legend");
-//     let grades = [-10, 10, 30, 50, 70, 90];
-//     let colors = color_hex;
-
-// // Loop through our intervals and generate a label with a colored square for each interval.
-//     for (let i = 0; i < grades.length; i++) {
-//       div.innerHTML += "<i style='background: "
-//         + colors[i]
-//         + "'></i> "
-//         + grades[i]
-//         + (grades[i + 1] ? "&ndash;" + grades[i + 1] + "<br>" : "+");
-//     }
-//     return div;
-//   };
